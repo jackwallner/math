@@ -1,5 +1,7 @@
 # Open problems, settled
 
+[![Lean verification](https://github.com/jackwallner/math/actions/workflows/lean.yml/badge.svg)](https://github.com/jackwallner/math/actions/workflows/lean.yml)
+
 Small results on published open problems, each with a proof or explicit object, an independent check, and Lean verification where possible.
 
 | Result | Problem | Check |
