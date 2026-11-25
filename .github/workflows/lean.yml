@@ -1,0 +1,27 @@
+name: Lean verification
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  windmill:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: results/c4-windmill-alpha/lean
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Build and audit axioms
+        run: |
+          lake build 2>&1 | tee build.log
+          ! grep -q "sorryAx" build.log
+          grep -q "'Windmill.alpha_iff_le_four' depends on axioms: \[propext, Classical.choice, Quot.sound\]" build.log
+      - name: Cube verifier
+        working-directory: results/cube-3-antimagic
+        run: python3 verify_cube.py

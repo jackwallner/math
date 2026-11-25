@@ -1,0 +1,6 @@
+.lake/
+build.log
+__pycache__/
+*.aux
+*.log
+!results/**/results-*.log

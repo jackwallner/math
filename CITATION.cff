@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use these results, please cite them as below."
+title: "Open problems, settled"
+authors:
+  - family-names: Wallner
+    given-names: Jack
+    affiliation: "Independent researcher"
+repository-code: "https://github.com/jackwallner/math"
+license: MIT
