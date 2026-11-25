@@ -152,7 +152,7 @@ Independently of the proof, we tested small cases by exact search. For a connect
 \item A constraint model with two all-different constraints and no symmetry breaking, solved with the CP-SAT solver~\cite{ortools} (Google OR-Tools, version 9.15).
 \item A pure CNF encoding with one Boolean variable for each (vertex, label) and (edge, difference) pair, with the threshold $\lambda$ fixed in turn to every possible value. It was solved with CaDiCaL~1.5.3~\cite{cadical} through PySAT~\cite{pysat}.
 \end{itemize}
-For $C_4^{(n)}$ the CP-SAT model was run with each colour class as the low class (one would suffice, by complementation), and the CNF model with the class of the shared vertex low. Every labeling found was re-checked against the definition by a separate script that rebuilds the graph independently. For $C_6^{(8)}$ the CP-SAT model, with the class of the shared vertex low (sufficient by complementation), proved infeasibility in 806 seconds, and the CNF model independently returned UNSAT for every threshold. The code, all labelings found, the solver logs and the Lean source are deposited with this note as an ancillary archive (\texttt{windmill-note-code.zip}).
+For $C_4^{(n)}$ with $5 \le n \le 12$ both models were run: CP-SAT with each colour class as the low class (one would suffice, by complementation), and the CNF model with the class of the shared vertex low. Every labeling found was re-checked against the definition by a separate script that rebuilds the graph independently. For $C_6^{(8)}$ the CP-SAT model, with the class of the shared vertex low (sufficient by complementation), proved infeasibility in 806 seconds, and the CNF model independently returned UNSAT for every threshold. The code, all labelings found, the solver logs and the Lean source are deposited with this note as an ancillary archive (\texttt{windmill-note-code.zip}).
 
 \begin{table}[ht]
 \caption{Exact searches. The middle column lists the $n$ for which an $\alpha$-valuation was found and independently checked; the right column lists the $n$ for which the solver proved that none exists. Cases marked undecided reached the time limit (15 minutes for $C_8$, 2 minutes for $C_{12}$) without a decision; $C_{12}^{(4)}$ is known to have an $\alpha$-valuation by \cite[Theorem~3.8]{FIM}.}\label{tab:search}
@@ -231,7 +231,7 @@ L.~Perron and F.~Didier,
 \bibitem{cadical}
 A.~Biere, K.~Fazekas, M.~Fleury and M.~Heisinger,
 \emph{CaDiCaL, Kissat, Paracooba, Plingeling and Treengeling entering the SAT Competition 2020},
-Proc. SAT Competition 2020, Univ. Helsinki, 2020, 51--53.
+Proc. SAT Competition 2020, Univ. Helsinki, 2020, 50--53.
 
 \bibitem{pysat}
 A.~Ignatiev, A.~Morgado and J.~Marques-Silva,
