@@ -23,4 +23,5 @@ Labelings for n ≤ 4 exist (their Theorem 3.8; explicit ones are in the Lean fi
 ## Check it
 
 - **Lean:** `cd lean && lake build`. The main theorem `Windmill.alpha_iff_le_four` states the full "if and only if n ≤ 4" and depends only on Lean's standard axioms (propext, Classical.choice, Quot.sound). It is rebuilt by GitHub Actions on every push. The definitions a reader has to trust are in `lean/Windmill/Defs.lean`.
-- **Paper:** `paper.pdf` (also on Zenodo).
+- **Paper:** [`paper.pdf`](paper.pdf) (source `paper.tex`), also on Zenodo. It also proves the generalisation to one-point unions of K_{2,k} (no α-labeling for more than 2k copies, sharp for k ≤ 4).
+- **Searches:** `search/` has the CP-SAT and SAT models, an independent checker, every labeling found, and the raw solver logs. Reproduce with Python 3.12, `ortools` and `python-sat`: `cd search && ./run_batch.sh python3`, then `python3 check_labeling.py`.

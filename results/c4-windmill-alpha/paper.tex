@@ -1,0 +1,258 @@
+\documentclass[11pt]{amsart}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[margin=1.15in]{geometry}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem*{conjecture*}{Conjecture}
+\newtheorem{question}{Question}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Amal}{\operatorname{Amal}}
+
+\title[One-point unions of $C_4$ and $\alpha$-valuations]{The one-point union of copies of $C_4$\\ and a conjecture on $\alpha$-valuations}
+\author{Jack Wallner}
+\address{Independent researcher}
+\subjclass[2020]{05C78}
+\keywords{graceful labeling, $\alpha$-valuation, $\alpha$-labeling, one-point union, vertex amalgamation, windmill}
+
+\begin{document}
+
+\begin{abstract}
+Figueroa-Centeno, Ichishima and Muntaner-Batle conjectured in 2003 that the one-point union of $n$ copies of the cycle $C_m$ admits an $\alpha$-valuation if and only if $mn \equiv 0 \pmod 4$. We show that the conjecture fails for $m = 4$: the one-point union of $n$ copies of $C_4$ admits an $\alpha$-valuation if and only if $n \le 4$. More generally, the one-point union of $n$ copies of $K_{2,k}$ amalgamated at a vertex of degree $k$ has no $\alpha$-valuation when $n > 2k$, and this bound is attained for $k \le 4$. The proof is short and elementary, and the case of $C_4$ has also been verified in the Lean~4 proof assistant. Exact computer searches with two independent solvers show that the conjecture fails for $m = 6$ as well: the one-point union of eight copies of $C_6$ has no $\alpha$-valuation, although $mn = 48 \equiv 0 \pmod 4$.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+All graphs are finite and simple. Let $G$ be a graph with $q$ edges. A \emph{graceful labeling} of $G$ is an injective map $f\colon V(G)\to\{0,1,\dots,q\}$ such that the edge labels $|f(u)-f(v)|$, $uv \in E(G)$, are exactly $1,2,\dots,q$. Rosa~\cite{Rosa} called a graceful labeling an \emph{$\alpha$-valuation} (now usually \emph{$\alpha$-labeling}) if there is an integer $\lambda$ such that
+\[
+  \min\{f(u),f(v)\} \le \lambda < \max\{f(u),f(v)\} \qquad\text{for every edge } uv.
+\]
+A graph with an $\alpha$-valuation is bipartite, and if it is connected then one colour class lies entirely in $[0,\lambda]$ and the other in $[\lambda+1,q]$. We call these the \emph{low} and \emph{high} classes. See Gallian's survey~\cite{Gallian} for the extensive literature.
+
+For a graph $H$ with a vertex $v$, let $\Amal(H,v,n)$ be the \emph{one-point union} (or \emph{vertex amalgamation}) of $n$ copies of $H$ in which the $n$ copies of $v$ are identified to a single vertex. Since all vertices of a cycle are alike, $\Amal(C_m,v,n)$ does not depend on $v$; it is often written $C_m^{(n)}$, and for $m=3$ it is the friendship graph or Dutch windmill.
+
+Figueroa-Centeno, Ichishima and Muntaner-Batle~\cite{FIM} proved that $\Amal(C_m,v,n)$ admits an $\alpha$-valuation when $m \equiv 0 \pmod 4$ and $n \in \{1,2,3,4\}$ \cite[Theorem~3.8]{FIM}, and when $m \equiv 2 \pmod 4$ and $n \in \{2,4\}$ \cite[Theorem~3.9]{FIM}. They then proposed the following.
+
+\begin{conjecture*}[{\cite[Conjecture~3.10]{FIM}}]
+The graph $\Amal(C_m,v,n)$ admits an $\alpha$-valuation if and only if $mn \equiv 0 \pmod 4$.
+\end{conjecture*}
+
+The conjecture is listed as open in the 2026 edition of Gallian's survey~\cite[\S3.1]{Gallian}. Taken literally the conjecture also covers odd $m$, where it fails trivially for $n \equiv 0 \pmod 4$ because the graph is not bipartite; the substantive content is the case of even $m$. The ``only if'' direction is a standard parity fact. An $\alpha$-valuation is graceful and forces the graph to be bipartite, so $m$ is even. Then the graph is connected and all its degrees are even, so by Rosa~\cite{Rosa} its size $q = mn$ satisfies $q \equiv 0$ or $3 \pmod 4$, and since $q$ is even, $mn \equiv 0 \pmod 4$. For $m = 4$ the condition $mn \equiv 0 \pmod 4$ holds for every $n$, so the conjecture predicts that every $C_4^{(n)}$ is an $\alpha$-graph. Barrientos and Minion~\cite{BM2019} showed that the one-point union of up to four copies of $K_{t,t}$ is an $\alpha$-graph; for $t = 2$ this again covers $C_4^{(n)}$ with $n \le 4$. Barrientos \cite[Theorem~6.3]{Barrientos2022} obtains $\alpha$-labeled quadrangular cacti from $\alpha$-trees by duplicating the vertices of a colour class whose vertices all have degree two; $C_4^{(n)}$ arises in this way only from the spider with $n$ legs of length two, which has no $\alpha$-valuation for $n \ge 3$, so that theorem does not reach $C_4^{(n)}$ for $n \ge 3$. Shee~\cite{Shee} proved that $C_4^{(n)}$ is graceful for every $n$. Our main result shows that the $\alpha$ condition cannot be met beyond four copies.
+
+\begin{theorem}\label{thm:C4}
+The one-point union $C_4^{(n)}$ of $n$ copies of $C_4$ admits an $\alpha$-valuation if and only if $n \le 4$. In particular, the conjecture of~\cite{FIM} is false for $m = 4$ and every $n \ge 5$.
+\end{theorem}
+
+Theorem~\ref{thm:C4} is the case $k = 2$ of the following result. Let $K_{2,k}^{\langle n\rangle}$ denote the one-point union of $n$ copies of $K_{2,k}$ amalgamated at a vertex of degree $k$ (for $k = 2$ this is $C_4^{(n)}$, and for $k \ne 2$ the vertices of degree $k$ are the two vertices of the part of size $2$).
+
+\begin{theorem}\label{thm:K2k}
+Let $k \ge 1$. If $n > 2k$, then $K_{2,k}^{\langle n\rangle}$ admits no $\alpha$-valuation. The bound is attained for $k = 1, 2, 3, 4$: the graphs $K_{2,1}^{\langle 2\rangle}$, $K_{2,2}^{\langle 4\rangle}$, $K_{2,3}^{\langle 6\rangle}$ and $K_{2,4}^{\langle 8\rangle}$ admit $\alpha$-valuations.
+\end{theorem}
+
+For $k = 1$ the graph $K_{2,1}^{\langle n\rangle}$ is the spider with $n$ legs of length two, and Theorem~\ref{thm:K2k} recovers Rosa's classical observation~\cite{Rosa} (see also \cite{ShiueLu}) that this tree has no $\alpha$-valuation for $n \ge 3$. Section~\ref{sec:proof} contains the proof, and Theorem~\ref{thm:C4} has also been checked formally (Section~\ref{sec:lean}).
+
+The conjecture also fails for a value of $m \equiv 2 \pmod 4$, although for this we have only a computer proof.
+
+\begin{quote}
+\textbf{Computational result.} The one-point union $C_6^{(8)}$ of eight copies of $C_6$ ($q = 48$) has no $\alpha$-valuation, whereas $C_6^{(2)}$, $C_6^{(4)}$ and $C_6^{(6)}$ have one.
+\end{quote}
+
+This was established by two independent exact solvers (Section~\ref{sec:computation}). Section~\ref{sec:open} discusses what remains of the conjecture of~\cite{FIM}.
+
+\section{Proof of Theorems \ref{thm:C4} and \ref{thm:K2k}}\label{sec:proof}
+
+Throughout this section $k \ge 1$, $n \ge 1$ and $q = 2kn$. Let $c$ be the shared vertex of $K_{2,k}^{\langle n\rangle}$. Copy $i$ ($1 \le i \le n$) consists of $c$, a second vertex $d_i$ of degree $k$, and $k$ vertices $x_{i,1},\dots,x_{i,k}$, each adjacent to both $c$ and $d_i$ (for $k = 1$, $c$ and $d_i$ are the two leaves of the path $K_{2,1}$). The graph is connected and bipartite with colour classes
+\[
+  L = \{c, d_1, \dots, d_n\}, \qquad U = \{x_{i,j} : 1 \le i \le n,\ 1 \le j \le k\}.
+\]
+Two features of this structure drive the proof: every vertex of $U$ has exactly two neighbours, namely $c$ and one $d_i$, and every $d_i$ has exactly $k$ neighbours.
+
+Let $f$ be an $\alpha$-valuation with threshold $\lambda$. The map $f \mapsto q - f$ sends $\alpha$-valuations to $\alpha$-valuations (with threshold $q-\lambda-1$) and exchanges the low and high classes, so we may assume that $L$ is the low class. Put
+\[
+  h = f(c), \qquad t = \max f(L).
+\]
+Then $f(L) \subseteq [0,t]$ and, since $t \le \lambda$, $f(U) \subseteq [t+1, q]$. Every edge label is $f(y) - f(x)$ with $x \in L$, $y \in U$. The edge with label $q$ joins the labels $0$ and $q$, so $0 \in f(L)$ and $q \in f(U)$.
+
+\begin{lemma}\label{lem:key}
+With this notation, $t - h \le k$.
+\end{lemma}
+
+\begin{proof}
+Suppose $t - h \ge k+1$. Then $t \ne h$, so $t = f(d_r)$ for some $r$. Consider an edge with label $\delta \le k+1$, joining $x \in L$ to $y \in U$. As $f(y) \ge t+1$ and $f(x) \le t$, we can write $f(x) = t - a$ and $f(y) = t + \delta - a$ with $0 \le a \le \delta - 1$. In particular $f(x) \ge t - k \ge h + 1$, so $x \ne c$.
+
+We show by induction on $\delta = 1, \dots, k$ that the edge with label $\delta$ joins $d_r$ to the vertex labeled $t + \delta$. Let $\delta \le k$ and assume this for all smaller labels. If $a \ge 1$, then $f(y) = t + \delta - a \in [t+1, t+\delta-1]$, so by induction $y$ is adjacent to $d_r$. Since $y$ is also adjacent to $c$, these are its only two neighbours, so $x \in \{c, d_r\}$. But $x \ne c$, and $x \ne d_r$ because $f(x) = t - a \ne t$. Hence $a = 0$: the edge joins $d_r$ (label $t$) to the vertex labeled $t + \delta$.
+
+Thus $d_r$ is adjacent to the vertices labeled $t+1, \dots, t+k$, which are all of its $k$ neighbours. Now take $\delta = k+1$ (an edge label, as $k+1 \le q$). If $a = 0$, then $x = d_r$ would have a $(k+1)$-st neighbour, which is impossible. If $a \ge 1$, then $f(y) \in [t+1, t+k]$, so $y$ is adjacent exactly to $c$ and $d_r$, and $x \in \{c, d_r\}$ is impossible as before. This contradiction proves $t - h \le k$.
+\end{proof}
+
+\begin{lemma}\label{lem:reverse}
+The map
+\[
+  \bar f(x) = t - f(x) \quad (x \in L), \qquad \bar f(y) = q + t + 1 - f(y) \quad (y \in U)
+\]
+is an $\alpha$-valuation with low class $L$, threshold $t$, $\bar f(c) = t - h$ and $\max \bar f(L) = t$.
+\end{lemma}
+
+\begin{proof}
+Since $f(L) \subseteq [0,t]$ and $f(U) \subseteq [t+1, q]$, the map $\bar f$ sends $L$ injectively into $[0,t]$ and $U$ injectively into $[t+1,q]$, so it is injective with values in $[0,q]$ and separates $L$ from $U$ at threshold $t$. For an edge $xy$ with $x \in L$, $y \in U$ we get $\bar f(y) - \bar f(x) = q + 1 - (f(y) - f(x))$, so the edge labels of $\bar f$ are the images of $\{1,\dots,q\}$ under $\delta \mapsto q+1-\delta$, which is again $\{1,\dots,q\}$. Finally $\bar f(c) = t - h$, and $\max \bar f(L) = t - \min f(L) = t$ because $0 \in f(L)$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:K2k}]
+Lemma~\ref{lem:key} applied to $f$ gives $t - h \le k$. By Lemma~\ref{lem:reverse}, $\bar f$ is an $\alpha$-valuation with low class $L$, hub label $t - h$ and largest low label $t$, so Lemma~\ref{lem:key} applies to it and gives $t - (t - h) = h \le k$. Hence $t \le 2k$. The $n+1$ vertices of $L$ carry distinct labels in $\{0, 1, \dots, t\}$, so $n + 1 \le t + 1 \le 2k+1$, that is, $n \le 2k$.
+
+For sharpness, explicit $\alpha$-valuations of $K_{2,1}^{\langle 2\rangle}$, $K_{2,2}^{\langle 4\rangle}$, $K_{2,3}^{\langle 6\rangle}$ and $K_{2,4}^{\langle 8\rangle}$ are given in Table~\ref{tab:labelings}. Each was checked directly against the definition.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:C4}]
+Since $C_4 = K_{2,2}$ and all vertices of $C_4$ have degree $2$, $C_4^{(n)} = K_{2,2}^{\langle n\rangle}$, and Theorem~\ref{thm:K2k} shows that there is no $\alpha$-valuation for $n \ge 5$. For $n \le 4$, $\alpha$-valuations exist by \cite[Theorem~3.8]{FIM} (see also \cite{BM2019}); explicit ones are listed in Table~\ref{tab:labelings}.
+\end{proof}
+
+\begin{remark}
+The proof gives more than nonexistence. In any $\alpha$-valuation of $K_{2,k}^{\langle n\rangle}$ whose low class is $L$ (the class containing the shared vertex), the labels of $L$ lie in $[0,2k]$, and the shared vertex has label at most $k$ and at least $t - k$, where $t$ is the largest label in $L$. For $n = 2k$ the labels of $L$ are therefore exactly $0, 1, \dots, 2k$ and the shared vertex is labeled $k$, as in the labelings of Table~\ref{tab:labelings}.
+\end{remark}
+
+\begin{remark}\label{rem:structure}
+Lemma~\ref{lem:key} uses that every high vertex is adjacent to the shared vertex, so that once a high vertex is joined to the low vertex of largest label, its neighbourhood is full. In $C_m^{(n)}$ with $m \ge 6$ most vertices are not adjacent to the shared vertex, and the argument does not apply.
+\end{remark}
+
+\subsection{Formal verification}\label{sec:lean}
+Theorem~\ref{thm:C4} has been formalised and checked in Lean~4~\cite{lean4} (version 4.36.0), using only the core library and no further dependencies. The main statement, \texttt{Windmill.alpha\_iff\_le\_four}, says that for every natural number $n$ the one-point union of $n$ copies of $C_4$ (hub, and vertices $a_i, d_i, b_i$ on the cycle $c\,a_i\,d_i\,b_i\,c$) has a labeling $f\colon V \to \{0,\dots,4n\}$ that is injective, has edge differences exactly $\{1,\dots,4n\}$ and admits a threshold, if and only if $n \le 4$. The command \texttt{\#print axioms} reports that the proof depends only on Lean's standard axioms \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}; there is no \texttt{sorry} and no \texttt{native\_decide}. The definitions a reader must trust occupy about fifty lines. The source is included in the ancillary archive.
+
+\begin{table}[ht]
+\caption{Explicit $\alpha$-valuations. The shared vertex is $c$. Copy $i$ is listed as $(f(a_i), f(d_i), f(b_i))$ for $C_4$ (the cycle $c\,a_i\,d_i\,b_i\,c$), and as $f(d_i)\,{:}\,f(x_{i,1}),\dots,f(x_{i,k})$ for $K_{2,k}$. All were verified by an independent checker.}\label{tab:labelings}
+\centering\small
+\begin{tabular}{@{}lcc>{\raggedright\arraybackslash}p{0.6\textwidth}@{}}
+\toprule
+graph & $q$ & $f(c)$ & copies \\
+\midrule
+$C_{4}^{(1)}$ & 4 & 1 & (4,0,2) \\
+$C_{4}^{(2)}$ & 8 & 0 & (3,2,4); (6,1,8) \\
+$C_{4}^{(3)}$ & 12 & 1 & (4,3,5); (7,2,9); (10,0,12) \\
+$C_{4}^{(4)}$ & 16 & 2 & (5,4,6); (15,0,16); (9,1,7); (14,3,12) \\
+$K_{2,1}^{\langle 2\rangle}$ & 4 & 1 & 2:3; 0:4 \\
+$K_{2,3}^{\langle 6\rangle}$ & 36 & 3 & 6:7,8,9; 2:30,32,20; 1:23,26,27; 0:35,36,34; 4:11,19,17; 5:15,14,24 \\
+$K_{2,4}^{\langle 8\rangle}$ & 64 & 4 & 8:9,10,11,12; 6:58,19,43,57; 7:25,36,47,45; 0:64,62,63,61; 3:27,31,37,39; 2:18,21,24,52; 5:60,30,35,15; 1:48,46,13,50 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Computations}\label{sec:computation}
+
+Independently of the proof, we tested small cases by exact search. For a connected bipartite graph, the existence of an $\alpha$-valuation is a finite constraint problem: labels $f(v) \in \{0,\dots,q\}$ pairwise distinct, a threshold $\lambda$ separating the two colour classes, and edge differences pairwise distinct in $\{1,\dots,q\}$ (hence exactly $\{1,\dots,q\}$). We used two encodings.
+\begin{itemize}
+\item A constraint model with two all-different constraints and no symmetry breaking, solved with the CP-SAT solver~\cite{ortools} (Google OR-Tools, version 9.15).
+\item A pure CNF encoding with one Boolean variable for each (vertex, label) and (edge, difference) pair, with the threshold $\lambda$ fixed in turn to every possible value. It was solved with CaDiCaL~1.5.3~\cite{cadical} through PySAT~\cite{pysat}.
+\end{itemize}
+For $C_4^{(n)}$ the CP-SAT model was run with each colour class as the low class (one would suffice, by complementation), and the CNF model with the class of the shared vertex low. Every labeling found was re-checked against the definition by a separate script that rebuilds the graph independently. For $C_6^{(8)}$ the CP-SAT model, with the class of the shared vertex low (sufficient by complementation), proved infeasibility in 806 seconds, and the CNF model independently returned UNSAT for every threshold. The code, all labelings found, the solver logs and the Lean source are deposited with this note as an ancillary archive (\texttt{windmill-note-code.zip}).
+
+\begin{table}[ht]
+\caption{Exact searches. The middle column lists the $n$ for which an $\alpha$-valuation was found and independently checked; the right column lists the $n$ for which the solver proved that none exists. Cases marked undecided reached the time limit (15 minutes for $C_8$, 2 minutes for $C_{12}$) without a decision.}\label{tab:search}
+\centering\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+graph & $\alpha$-valuation for $n =$ & no $\alpha$-valuation for $n =$ \\
+\midrule
+$C_{4}^{(n)}$ & $1, 2, 3, 4$ & $5, 6, 7, 8, 9, 10, 11, 12$ \\
+$C_{6}^{(n)}$ & $2, 4, 6$ & $8$ \\
+$C_{8}^{(n)}$ & $1, 2, 3, 4, 5, 6, 7$ & -- ($8$ undecided) \\
+$C_{12}^{(n)}$ & $1, 2, 3$ & -- ($4, 5$ undecided) \\
+$K_{2,1}^{\langle n\rangle}$ & $1, 2$ & $3, 4$ \\
+$K_{2,3}^{\langle n\rangle}$ & $1, 2, 3, 4, 5, 6$ & $7, 8$ \\
+$K_{2,4}^{\langle n\rangle}$ & $1, 2, 3, 4, 5, 6, 7, 8$ & $9, 10$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All results agree with Theorems~\ref{thm:C4} and~\ref{thm:K2k}. The row for $C_6$ contains the second counterexample to the conjecture of~\cite{FIM}.
+
+\section{What remains of the conjecture}\label{sec:open}
+
+Remark~\ref{rem:structure} explains why our proof is special to $K_{2,k}$: it needs every high vertex to be adjacent to the shared vertex. Nevertheless the data in Table~\ref{tab:search} show that the failure of the conjecture of~\cite{FIM} is not confined to $C_4$, since $C_6^{(8)}$ has no $\alpha$-valuation. For $m \equiv 0 \pmod 4$ with $m \ge 8$, every case we could decide does admit an $\alpha$-valuation. We make no claim beyond the computed cases, and we close with three questions.
+
+\begin{question}
+For which even $n$ does $C_6^{(n)}$ admit an $\alpha$-valuation? Is it exactly $n \in \{2, 4, 6\}$? Is there a human-readable proof that $C_6^{(8)}$ has none?
+\end{question}
+
+\begin{question}
+For $m \equiv 2 \pmod 4$ with $m \ge 10$, and for $m \equiv 0 \pmod 4$ with $m \ge 8$, is the set of $n$ for which $C_m^{(n)}$ admits an $\alpha$-valuation finite or infinite?
+\end{question}
+
+\begin{question}
+Is the bound $n \le 2k$ of Theorem~\ref{thm:K2k} attained for every $k$?
+\end{question}
+
+\section*{Acknowledgments}
+AI tools (Anthropic's Claude models and OpenAI's GPT models) assisted with the literature search, with writing and running the computer searches, with the Lean formalisation, and with independent checking of the proof. The author verified all arguments and computations reported here and takes full responsibility for them.
+
+\begin{thebibliography}{99}
+
+\bibitem{BM2019}
+C.~Barrientos and S.~Minion,
+\emph{Series-parallel operations with alpha-graphs},
+Theory Appl. Graphs \textbf{6}(1) (2019), Article~4.
+\url{https://doi.org/10.20429/tag.2019.060104}
+
+\bibitem{Barrientos2022}
+C.~Barrientos,
+\emph{On the generation of alpha graphs},
+J. Algebra Comb. Discrete Struct. Appl. \textbf{9}(2) (2022), 31--44.
+\url{https://doi.org/10.13069/jacodesmath.1111733}
+
+\bibitem{FIM}
+R.~M. Figueroa-Centeno, R.~Ichishima and F.~A. Muntaner-Batle,
+\emph{Labeling the vertex amalgamation of graphs},
+Discuss. Math. Graph Theory \textbf{23} (2003), 129--139.
+\url{https://doi.org/10.7151/dmgt.1190}
+
+\bibitem{Gallian}
+J.~A. Gallian,
+\emph{A dynamic survey of graph labeling},
+Electron. J. Combin. (2026), Dynamic Survey \#DS6, 29th edition.
+
+\bibitem{lean4}
+L.~de Moura and S.~Ullrich,
+\emph{The Lean 4 theorem prover and programming language},
+Automated Deduction (CADE-28), Lecture Notes in Comput. Sci. \textbf{12699}, Springer, 2021, 625--635.
+
+\bibitem{ortools}
+L.~Perron and F.~Didier,
+\emph{CP-SAT}, Google OR-Tools, version 9.15,
+\url{https://developers.google.com/optimization}.
+
+\bibitem{cadical}
+A.~Biere, K.~Fazekas, M.~Fleury and M.~Heisinger,
+\emph{CaDiCaL, Kissat, Paracooba, Plingeling and Treengeling entering the SAT Competition 2020},
+Proc. SAT Competition 2020, Univ. Helsinki, 2020, 51--53.
+
+\bibitem{pysat}
+A.~Ignatiev, A.~Morgado and J.~Marques-Silva,
+\emph{PySAT: a Python toolkit for prototyping with SAT oracles},
+Theory and Applications of Satisfiability Testing (SAT 2018), Lecture Notes in Comput. Sci. \textbf{10929}, Springer, 2018, 428--437.
+
+\bibitem{Rosa}
+A.~Rosa,
+\emph{On certain valuations of the vertices of a graph},
+Theory of Graphs (Internat. Sympos., Rome, 1966), Gordon and Breach, New York; Dunod, Paris, 1967, 349--355.
+
+\bibitem{Shee}
+S.~C. Shee,
+\emph{Some results on $\lambda$-valuation of graphs involving complete bipartite graphs},
+Discrete Math. \textbf{87} (1991), 73--80.
+
+\bibitem{ShiueLu}
+C.-L. Shiue and H.-C. Lu,
+\emph{Trees which admit no $\alpha$-labelings},
+Ars Combin. \textbf{103} (2012), 453--463.
+
+\end{thebibliography}
+
+\end{document}

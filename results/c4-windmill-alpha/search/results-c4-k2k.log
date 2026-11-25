@@ -1,0 +1,47 @@
+C4x1 low=centre OPTIMAL 0.0s
+C4x2 low=centre OPTIMAL 0.1s
+C4x3 low=centre OPTIMAL 0.1s
+C4x4 low=centre OPTIMAL 0.3s
+C4x5 low=centre INFEASIBLE 0.5s
+C4x5 low=other INFEASIBLE 0.5s
+C4x6 low=centre INFEASIBLE 0.8s
+C4x6 low=other INFEASIBLE 0.4s
+C4x7 low=centre INFEASIBLE 1.9s
+C4x7 low=other INFEASIBLE 0.7s
+C4x8 low=centre INFEASIBLE 4.0s
+C4x8 low=other INFEASIBLE 2.4s
+C4x9 low=centre INFEASIBLE 4.0s
+C4x9 low=other INFEASIBLE 4.8s
+C4x10 low=centre INFEASIBLE 24.7s
+C4x10 low=other INFEASIBLE 61.7s
+C4x11 low=centre INFEASIBLE 72.4s
+C4x11 low=other INFEASIBLE 22.7s
+C4x12 low=centre INFEASIBLE 258.5s
+C4x12 low=other INFEASIBLE 164.2s
+C4x5 cnf UNSAT
+C4x6 cnf UNSAT
+C4x7 cnf UNSAT
+C4x8 cnf UNSAT
+C4x9 cnf UNSAT
+C4x10 cnf UNSAT
+C4x11 cnf UNSAT
+C4x12 cnf UNSAT
+K23x1 low=centre OPTIMAL 0.0s
+K23x2 low=centre OPTIMAL 0.1s
+K23x3 low=centre OPTIMAL 4.6s
+K23x4 low=centre OPTIMAL 3.7s
+K23x5 low=centre OPTIMAL 1.8s
+K23x6 low=centre OPTIMAL 3.9s
+K23x7 low=centre INFEASIBLE 9.5s
+K23x7 low=other INFEASIBLE 7.7s
+K23x8 low=centre INFEASIBLE 13.0s
+K23x8 low=other INFEASIBLE 15.9s
+K23x7 cnf UNSAT
+K23x8 cnf UNSAT
+K21x1 low=centre OPTIMAL 0.1s
+K21x2 low=centre OPTIMAL 0.0s
+K21x3 low=centre INFEASIBLE 0.0s
+K21x3 low=other INFEASIBLE 0.0s
+K21x4 low=centre INFEASIBLE 0.0s
+K21x4 low=other INFEASIBLE 0.0s
+K21x3 cnf UNSAT

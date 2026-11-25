@@ -1,0 +1,1 @@
+{"family": "K2", "a": 1, "n": 1, "edges": [[0, 2], [1, 2]], "labels": [0, 1, 2], "solver": "cp-sat", "low_class": "centre"}
