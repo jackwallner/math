@@ -14,7 +14,7 @@ An α-labeling of a bipartite graph with q edges is an injective f: V → {0, ..
 
 Let G be n copies of C_4 sharing a hub, q = 4n. Replacing f by q - f if needed, the hub is on the low side. Then the low side is the hub plus the n far vertices, the high side is the 2n neighbours of the hub, every high vertex is adjacent to the hub and to exactly one other low vertex, and every non-hub low vertex has degree 2. Let h be the hub's label and t the largest low label.
 
-1. **t - h ≤ 2.** Suppose t - h ≥ 3. Difference 1 must join t to t + 1. Difference 2 is t to t + 2 or t - 1 to t + 1; the latter needs t - 1 = h, since t + 1 already has neighbours t and h. Difference 3 is then t to t + 3 (impossible, t already has degree 2), t - 1 to t + 2, or t - 2 to t + 1 (impossible, both high vertices already have their two neighbours t and h). Contradiction.
+1. **t - h ≤ 2.** Suppose t - h ≥ 3. Difference 1 must join t to t + 1. Difference 2 is t to t + 2 or t - 1 to t + 1; the latter is impossible, because t + 1 already has its two neighbours t and h, and t - 1 ≠ h. Difference 3 is then t to t + 3 (impossible, t already has degree 2), t - 1 to t + 2, or t - 2 to t + 1 (impossible, both high vertices already have their two neighbours t and h, and neither t - 1 nor t - 2 is h). Contradiction.
 2. **h ≤ 2.** Map each low label x to t - x and each high label y to q + t + 1 - y. Every difference d becomes q + 1 - d, so this is again an α-labeling with largest low label t (0 is always a label) and hub label t - h. Step 1 now gives h ≤ 2.
 3. So all n + 1 low labels lie in {0, ..., 4}, and n ≤ 4.
 
