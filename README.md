@@ -6,7 +6,7 @@ Small results on published open problems, each with a proof or explicit object, 
 
 | Result | Problem | Check |
 | --- | --- | --- |
-| [Windmills of 4-cycles have no α-labeling beyond 4 copies](results/c4-windmill-alpha/) | Refutes Figueroa-Centeno, Ichishima and Muntaner-Batle, Conjecture 3.10 (2003) | Lean 4 |
+| [Windmills of 4-cycles have no α-labeling beyond 4 copies](results/c4-windmill-alpha/) | Refutes Figueroa-Centeno, Ichishima and Muntaner-Batle, Conjecture 3.10 (2003). Preprint: [doi:10.5281/zenodo.24523252](https://doi.org/10.5281/zenodo.24523252) | Lean 4 |
 | [The cube has a 3-antimagic labeling of type (1,1,1)](results/cube-3-antimagic/) | Settles the case d = 3, n = 4 of the prism problem (open in Gallian's survey) | Script |
 
 Jack Wallner, independent researcher. AI tools assisted with literature search, computation and checking; every argument here has been verified by the author.

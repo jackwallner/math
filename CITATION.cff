@@ -7,3 +7,13 @@ authors:
     affiliation: "Independent researcher"
 repository-code: "https://github.com/jackwallner/math"
 license: MIT
+preferred-citation:
+  type: article
+  title: "The one-point union of copies of C4 and a conjecture on alpha-valuations"
+  authors:
+    - family-names: Wallner
+      given-names: Jack
+  doi: "10.5281/zenodo.24523252"
+  year: 2026
+  publisher:
+    name: Zenodo
