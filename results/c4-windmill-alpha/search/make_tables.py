@@ -1,4 +1,4 @@
-"""Print the LaTeX rows for the note's tables from labelings/*.json and ../results-*.log."""
+"""Print the LaTeX rows for the note's tables from labelings/*.json and results-*.log."""
 import json
 import pathlib
 import re
@@ -38,7 +38,7 @@ def search_rows() -> None:
     yes, no = defaultdict(set), defaultdict(set)
     open_ = defaultdict(set)
     pat = re.compile(r"^(C|K2)(\d+)x(\d+) (?:low=\w+ (\w+)|cnf (\w+))")
-    for log in sorted(HERE.parent.glob("results-*.log")):
+    for log in sorted(HERE.glob("results-*.log")):
         for line in log.read_text().splitlines():
             m = pat.match(line)
             if not m:
